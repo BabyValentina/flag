@@ -1,1 +1,2 @@
-include ':app', ':imageselector', ':PhotoPicker'
+include ':app', ':imageselector', ':PhotoPicker', ':lib-bither-compress1'
+project(':lib-bither-compress1').projectDir = new File('lib-bither-compress')

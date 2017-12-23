@@ -11,9 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.gky.cra.CreateMedicalRecordActivity;
-import com.gky.cra.R;
-import com.gky.cra.view.GlideRoundTransform;
+import com.longke.flag.R;
+import com.longke.flag.activity.PublishFlagActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -57,9 +56,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
           @Override
           public void onClick(View v) {
             Intent intent = new Intent(mContext, PhotoPickerActivity.class);
-            PhotoPickerIntent.setPhotoCount(intent, 21-photoPaths.size());
+            PhotoPickerIntent.setPhotoCount(intent, 9-photoPaths.size());
             PhotoPickerIntent.setColumn(intent, 3);
-            ((Activity)mContext).startActivityForResult(intent, CreateMedicalRecordActivity.REQUEST_ADD_CODE);
+           ((Activity)mContext).startActivityForResult(intent, PublishFlagActivity.REQUEST_ADD_CODE);
           }
         });
     }else{
@@ -82,7 +81,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
               .thumbnail(0.1f)
               .placeholder(me.iwf.photopicker.R.drawable.__picker_ic_photo_black_48dp)
               .error(me.iwf.photopicker.R.drawable.__picker_ic_broken_image_black_48dp)
-              .transform(new GlideRoundTransform(mContext,6))
               .into(holder.ivPhoto);
 
       holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
@@ -104,8 +102,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
           intent.putExtra(PhotoPagerActivity.EXTRA_PHOTOS,paths );
           intent.putExtra(PhotoPagerActivity.EXTRA_SHOW_DELETE, true);
-          if (mContext instanceof CreateMedicalRecordActivity) {
-            ((CreateMedicalRecordActivity) mContext).previewPhoto(intent);
+          if (mContext instanceof PublishFlagActivity) {
+            ((PublishFlagActivity) mContext).previewPhoto(intent);
           }
         }
       });

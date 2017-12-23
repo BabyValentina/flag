@@ -36,6 +36,9 @@
             android:name=".activity.PublishFlagActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="me.iwf.photopicker.PhotoPickerActivity"
+            android:screenOrientation="portrait" android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>
