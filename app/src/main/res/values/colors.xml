@@ -125,4 +125,15 @@
     <color name="buttonColor">#ffffff</color>
     <color name="buttonStroke">#333333</color>
     <color name="buttonColorIn">#f2637a</color>
+    <color name="background">#FFFFFF</color>
+    <color name="split_line">#eaeaea</color>
+    <color name="text1">#808080</color>
+    <color name="text2">#b7b7b7</color>
+
+    <color name="color1">#F0F0F0</color>
+    <color name="color2">#FFFFFF</color>
+    <color name="color3">#B0B0B0</color>
+    <color name="color4">#666666</color>
+    <color name="color5">#57C5E8</color>
+
 </resources>

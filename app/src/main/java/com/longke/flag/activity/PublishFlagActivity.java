@@ -1,12 +1,22 @@
 package com.longke.flag.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.donkingliang.imageselector.utils.ImageSelectorUtils;
 import com.longke.flag.R;
+import com.longke.flag.adapter.ImageAdapter;
+import com.longke.flag.view.CustomDatePicker;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 
@@ -48,15 +58,31 @@ public class PublishFlagActivity extends AppCompatActivity {
     ArrayList<String> selectedPhotos = new ArrayList<>();
     private File PHOTO_DIR;
     private int diseaseType=1;
+    private RelativeLayout selectDate, selectTime;
+    private TextView currentDate, currentTime;
+    private CustomDatePicker customDatePicker1, customDatePicker2;
+    private static final int REQUEST_CODE = 0x00000011;
 
+    private RecyclerView rvImage;
+    private ImageAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_case_activity);
         ButterKnife.inject(this);
+        initDatePicker();
+        customDatePicker2.show("2016-06-02");
 
-
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && data != null) {
+            ArrayList<String> images = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
+            mAdapter.refresh(images);
+        }
+        //ImageSelectorUtils.openPhoto(PublishFlagActivity.this, REQUEST_CODE, false, 9);
     }
 
 
@@ -376,4 +402,27 @@ public class PublishFlagActivity extends AppCompatActivity {
 
         }
     };*/
+    private void initDatePicker() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        String now = sdf.format(new Date());
+
+
+        customDatePicker1 = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+            @Override
+            public void handle(String time) { // 回调接口，获得选中的时间
+                currentDate.setText(time.split(" ")[0]);
+            }
+        }, "2010-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        customDatePicker1.showSpecificTime(false); // 不显示时和分
+        customDatePicker1.setIsLoop(false); // 不允许循环滚动
+
+        customDatePicker2 = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+            @Override
+            public void handle(String time) { // 回调接口，获得选中的时间
+
+            }
+        }, "2010-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        customDatePicker2.showSpecificTime(true); // 显示时和分
+        customDatePicker2.setIsLoop(true); // 允许循环滚动
+    }
 }
