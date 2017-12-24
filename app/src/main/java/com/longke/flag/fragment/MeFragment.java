@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 
 import com.flyco.systembar.SystemBarHelper;
 import com.longke.flag.R;
+import com.longke.flag.activity.MyViewerActivity2;
+import com.longke.flag.activity.MyfansActivity;
 import com.longke.flag.activity.UserDetailActivity;
 import com.longke.flag.adapter.InfoAdapter;
 
@@ -29,6 +31,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class MeFragment extends Fragment implements OnClickListener {
 
+    private View mView;
     private AppCompatActivity mAppCompatActivity;
     private CircleImageView circleimageview_icon_head;
 
@@ -46,14 +49,14 @@ public class MeFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_me2, container, false);
-        circleimageview_icon_head = (CircleImageView) view.findViewById(R.id.circleimageview_icon_head);
+        mView = inflater.inflate(R.layout.fragment_me2, container, false);
+        circleimageview_icon_head = (CircleImageView) mView.findViewById(R.id.circleimageview_icon_head);
         circleimageview_icon_head.setOnClickListener(this);
         CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
+                (CollapsingToolbarLayout) mView.findViewById(R.id.collapsing_toolbar);
         //设置CollapsingToolbarLayout的标题文字
         collapsingToolbar.setTitle(" ");
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) mView.findViewById(R.id.toolbar);
         mAppCompatActivity.setSupportActionBar(toolbar);
         mAppCompatActivity.getSupportActionBar().setTitle("");
         toolbar.setNavigationOnClickListener(new OnClickListener() {
@@ -66,14 +69,30 @@ public class MeFragment extends Fragment implements OnClickListener {
         SystemBarHelper.immersiveStatusBar(mAppCompatActivity, 0);
         SystemBarHelper.setHeightAndPadding(mAppCompatActivity, toolbar);
         //设置ViewPager
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        ViewPager viewPager = (ViewPager) mView.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         //设置tablayout，viewpager上的标题
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) mView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ea6a6a"));
-        return view;
+        setOnclickListener();
+        return mView;
+    }
+
+    private void setOnclickListener(){
+        mView.findViewById(R.id.fans_tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MyfansActivity.class));
+            }
+        });
+        mView.findViewById(R.id.viewer_tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MyViewerActivity2.class));
+            }
+        });
     }
 
     /**
