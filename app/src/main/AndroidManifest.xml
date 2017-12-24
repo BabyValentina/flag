@@ -39,6 +39,22 @@
         <activity android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:screenOrientation="portrait" android:theme="@style/AppTheme.NoActionBar"
             />
+        <activity
+            android:name=".activity.UserDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.SignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.UserNameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.SexActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
