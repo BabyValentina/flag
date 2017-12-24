@@ -20,6 +20,7 @@ import com.flyco.systembar.SystemBarHelper;
 import com.longke.flag.R;
 import com.longke.flag.activity.MyViewerActivity2;
 import com.longke.flag.activity.MyfansActivity;
+import com.longke.flag.activity.SettingActivity;
 import com.longke.flag.activity.UserDetailActivity;
 import com.longke.flag.adapter.InfoAdapter;
 
@@ -85,6 +86,12 @@ public class MeFragment extends Fragment implements OnClickListener {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), MyfansActivity.class));
+            }
+        });
+        mView.findViewById(R.id.setting_tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SettingActivity.class));
             }
         });
         mView.findViewById(R.id.viewer_tv).setOnClickListener(new View.OnClickListener() {
