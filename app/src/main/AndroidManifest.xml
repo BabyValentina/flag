@@ -28,6 +28,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activity.SearchActivity"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.DetailsFlagActivity"
             android:screenOrientation="portrait"
@@ -40,22 +41,24 @@
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".activity.UserDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SignActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.UserNameActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SexActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.MyfansActivity"
             android:screenOrientation="portrait"
@@ -76,6 +79,37 @@
         </activity>
         <activity android:name=".activity.MyCollectionActivity">
         </activity>
+=======
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.MyViewerActivity2"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.setting.PacketbagActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.setting.WithdrawActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.setting.RechargeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.setting.BillActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".activity.setting.MyBankActivity"></activity>
+>>>>>>> ce119093b7618520d62af54e34c853212243c326
     </application>
 
 </manifest>
