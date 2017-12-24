@@ -67,19 +67,27 @@
             android:name=".activity.MyViewerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".activity.MyViewerActivity2"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activity.ModifyPwdActivity">
+
+        <activity android:name=".activity.ModifyPwdActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"
+            >
         </activity>
-        <activity android:name=".activity.FeedbackActivity">
+        <activity android:name=".activity.FeedbackActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"
+            >
         </activity>
-        <activity android:name=".activity.AboutUsActivity">
+        <activity android:name=".activity.AboutUsActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"
+            >
         </activity>
-        <activity android:name=".activity.MyCollectionActivity">
+        <activity android:name=".activity.MyCollectionActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"
+            >
         </activity>
-=======
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.MyViewerActivity2"
@@ -109,7 +117,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:name=".activity.setting.MyBankActivity"></activity>
->>>>>>> ce119093b7618520d62af54e34c853212243c326
     </application>
 
 </manifest>

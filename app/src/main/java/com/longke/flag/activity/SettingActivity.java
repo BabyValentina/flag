@@ -26,12 +26,13 @@ public class SettingActivity extends FragmentActivity {
                 startActivity(new Intent(SettingActivity.this, PacketbagActivity.class));
                 break;
             case R.id.password_layout:
-                //startActivity(new Intent(SettingActivity.this, Pass.class));
+                startActivity(new Intent(SettingActivity.this, ModifyPwdActivity.class));
                 break;
             case R.id.feedback_layout:
-                //startActivity(new Intent(SettingActivity.this, F.class));
+                startActivity(new Intent(SettingActivity.this, FeedbackActivity.class));
                 break;
             case R.id.aboutus_layout:
+                startActivity(new Intent(SettingActivity.this, AboutUsActivity.class));
                 break;
         }
     }

@@ -33,6 +33,7 @@ public class MyCollectionActivity extends AppCompatActivity implements PullLoadM
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_collection);
         ButterKnife.inject(this);
+        initView();
     }
 
     private void initView() {
