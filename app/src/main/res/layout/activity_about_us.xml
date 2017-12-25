@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/white"
+                android:orientation="vertical" >
+    <RelativeLayout
+        android:id="@+id/title_bar"
+        android:layout_height="45dp"
+
+        android:layout_width="match_parent"
+
+        android:background="@color/title_bar_color">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@drawable/fanhui"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/addrss_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="关于我们"
+            android:textColor="@color/title_text_color"
+            android:textSize="20.0sp" />
+    </RelativeLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:background="#cccccc" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/dengluflag"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"/>
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_marginTop="30dp"
+             android:textSize="14dp"
+             android:textColor="#333333"
+             android:layout_marginLeft="16dp"
+             android:layout_marginRight="16dp"
+             android:lineSpacingExtra="8dp"
+             android:text="Flag,是一款致力于分门别类记录分享的社交软件，他可以完整地记录你的生活的Flag,等方方面面"
+             android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

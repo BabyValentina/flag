@@ -1,70 +1,88 @@
 package com.longke.flag.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.donkingliang.imageselector.utils.ImageSelectorUtils;
 import com.longke.flag.R;
-import com.longke.flag.adapter.ImageAdapter;
+import com.longke.flag.adapter.PhotoAdapter;
 import com.longke.flag.view.CustomDatePicker;
+
+import net.bither.util.NativeUtil;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import me.iwf.photopicker.PhotoPickerActivity;
+
 
 /**
  * 创建病历档案
  */
 public class PublishFlagActivity extends AppCompatActivity {
-
-
-   /* @InjectView(R.id.radioGroupID)
-    RadioGroup radioGroupID;
-    @InjectView(R.id.name_tv)
-    EditText nameTv;
-    @InjectView(R.id.time_tv)
-    TextView timeTv;
-    @InjectView(R.id.time_layout)
-    RelativeLayout timeLayout;
+    @InjectView(R.id.back_img_btn)
+    ImageView mBackImgBtn;
+    @InjectView(R.id.current_section)
+    TextView mCurrentSection;
+    @InjectView(R.id.send_msg_btn)
+    TextView mSendMsgBtn;
+    @InjectView(R.id.cra_title)
+    RelativeLayout mCraTitle;
+    @InjectView(R.id.flag_title)
+    EditText mFlagTitle;
+    @InjectView(R.id.flag_content)
+    EditText mFlagContent;
+    @InjectView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
+    @InjectView(R.id.radioMale)
+    RadioButton mRadioMale;
+    @InjectView(R.id.radioFemale)
+    RadioButton mRadioFemale;
+    @InjectView(R.id.radioGroup)
+    RadioGroup mRadioGroup;
+    @InjectView(R.id.tixing)
+    TextView mTixing;
+    @InjectView(R.id.alert_time_tv)
+    TextView mAlertTimeTv;
+    @InjectView(R.id.dacheng_text)
+    TextView mDachengText;
     private ArrayList<String> mPhotoList;
     private ArrayList<String> selectPhotoList;
-    private ImageShowAdapter mImagePathAdapter;
     private LayoutInflater mInflater;
-
     private ArrayList<String> paths;
     private ImageView back_img_btn;
-    private TextView send_msg_btn;
-    private EditText et_content;
-    private String patientId;
-    private String questId;
-    protected AbLoadDialogFragment mDialogFragment;
-    private BingLi bingLi;
-    private String title;
-    private TextView titleText;
-    private TextView countText;
     public final static int REQUEST_CODE = 1;
     public final static int REQUEST_ADD_CODE = 2;
     RecyclerView recyclerView;
-    PhotoAdapter photoAdapter;*/
-
+    PhotoAdapter photoAdapter;
     ArrayList<String> selectedPhotos = new ArrayList<>();
     private File PHOTO_DIR;
-    private int diseaseType=1;
+    private int diseaseType = 1;
     private RelativeLayout selectDate, selectTime;
     private TextView currentDate, currentTime;
     private CustomDatePicker customDatePicker1, customDatePicker2;
-    private static final int REQUEST_CODE = 0x00000011;
 
-    private RecyclerView rvImage;
-    private ImageAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +90,12 @@ public class PublishFlagActivity extends AppCompatActivity {
         setContentView(R.layout.create_case_activity);
         ButterKnife.inject(this);
         initDatePicker();
-        customDatePicker2.show("2016-06-02");
+        initData();
+        initView();
+
 
     }
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -84,56 +105,16 @@ public class PublishFlagActivity extends AppCompatActivity {
         }
         //ImageSelectorUtils.openPhoto(PublishFlagActivity.this, REQUEST_CODE, false, 9);
     }
+*/
 
 
-   /* public void previewPhoto(Intent intent) {
+    public void previewPhoto(Intent intent) {
         startActivityForResult(intent, REQUEST_CODE);
     }
 
     private void initEvents() {
-        back_img_btn.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        String photo_dir = AbFileUtil
-                .getImageDownloadDir(PublishFlagActivity.this);
-        if (AbStrUtil.isEmpty(photo_dir)) {
-            AbToastUtil.showToast(PublishFlagActivity.this, "�洢��������");
-        } else {
-            PHOTO_DIR = new File(photo_dir);
-        }
-        send_msg_btn.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-
-                if(TextUtils.isEmpty(nameTv.getText().toString().trim())){
-                    AbToastUtil
-                            .showToast(PublishFlagActivity.this,
-                                    "请先填写报告名称");
-                    return;
-                }
-                if(TextUtils.isEmpty(timeTv.getText().toString().trim())){
-                    AbToastUtil
-                            .showToast(PublishFlagActivity.this,
-                                    "请先填写检验时间/采用时间");
-                    return;
-                }
-                if (TextUtils.isEmpty(et_content.getText()
-                        .toString().trim()) && selectedPhotos.size() == 1) {
-                    AbToastUtil
-                            .showToast(PublishFlagActivity.this,
-                                    "请填写描述或上传病历图片");
-                    return;
-                }
-                send_msg_btn.setEnabled(false);
-                upDate();
-
-            }
-        });
     }
 
 
@@ -141,12 +122,6 @@ public class PublishFlagActivity extends AppCompatActivity {
         mPhotoList = new ArrayList<String>();
         paths = new ArrayList<String>();
         selectPhotoList = new ArrayList<String>();
-        bingLi = (BingLi) getIntent().getSerializableExtra("bingLi");
-        patientId = getIntent().getStringExtra("patientId");
-        questId = getIntent().getStringExtra("questId");
-        title = getIntent().getStringExtra("title");
-        //titleText.setText(title);
-        AbAppUtil.closeSoftInput(PublishFlagActivity.this);
 
 
     }
@@ -155,42 +130,10 @@ public class PublishFlagActivity extends AppCompatActivity {
         selectedPhotos.add(String.valueOf(R.drawable.cam_photo));
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         photoAdapter = new PhotoAdapter(this, selectedPhotos);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(5, OrientationHelper.VERTICAL));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, OrientationHelper.VERTICAL));
         recyclerView.setAdapter(photoAdapter);
-        back_img_btn = (ImageView) findViewById(R.id.back_img_btn);
-        send_msg_btn = (TextView) findViewById(R.id.send_msg_btn);
-        et_content = (EditText) findViewById(R.id.detailInfo);
-        titleText = (TextView) findViewById(R.id.current_section);
-        countText = (TextView) findViewById(R.id.count_tv);
-        mInflater = LayoutInflater.from(PublishFlagActivity.this);
-        et_content.addTextChangedListener(watcher);
-        radioGroupID.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId==R.id.femaleGroupID){
-                    diseaseType=1;
-                }else{
-                    diseaseType=2;
-                }
-            }
-        });
+
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(PublishFlagActivity.class.getName());
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(PublishFlagActivity.class.getName());
-        MobclickAgent.onPause(this);
-    }
-
-
 
 
     @Override
@@ -209,7 +152,7 @@ public class PublishFlagActivity extends AppCompatActivity {
                 if (photos != null) {
                     selectedPhotos.addAll(photos);
                 }
-                if (selectedPhotos.size() < 20) {
+                if (selectedPhotos.size() < 9) {
                     selectedPhotos.add(String.valueOf(R.drawable.cam_photo));
                 }
 
@@ -219,7 +162,7 @@ public class PublishFlagActivity extends AppCompatActivity {
                 if (photos != null) {
                     selectedPhotos.addAll(photos);
                 }
-                if (selectedPhotos.size() < 20) {
+                if (selectedPhotos.size() < 9) {
                     selectedPhotos.add(String.valueOf(R.drawable.cam_photo));
                 }
             }
@@ -228,180 +171,25 @@ public class PublishFlagActivity extends AppCompatActivity {
         }
     }
 
-    public static File getFilePath(String filePath, String fileName) {
-        File file = null;
-        makeRootDirectory(filePath);
-        try {
-            file = new File(filePath + fileName);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return file;
-    }
+
     public File compressImage(String path) {
         try {
             File saveFile = new File(getExternalCacheDir(), "compress_" + System.currentTimeMillis() + ".jpg");
             Bitmap bitmap = BitmapFactory.decodeFile(path);
 
             Log.e("===compressImage===", "====开始==压缩==saveFile==" + saveFile.getAbsolutePath());
+
             NativeUtil.compressBitmap(bitmap, saveFile.getAbsolutePath());
             Log.e("===compressImage===", "====完成==压缩==saveFile==" + saveFile.getAbsolutePath());
-            return  saveFile;
+            return saveFile;
         } catch (Exception e) {
             e.printStackTrace();
-            return  null;
-        }
-
-    }
-
-    public static void makeRootDirectory(String filePath) {
-        File file = null;
-        try {
-            file = new File(filePath);
-            if (!file.exists()) {
-                file.mkdir();
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
-
-    *//**
-     * ��ȡ����
-     *//*
-    public void upDate() {
-        if (!AppUtils.isNetworkAvailable(UILApplication.getInstance())) {
-            AbToastUtil.showToast(UILApplication.getInstance(), getString(R.string.wangluoyichang));
-            return;
-        }
-        RequestParams params = new RequestParams();
-        HttpUtils http = new HttpUtils();
-        params.addBodyParameter("userId",
-                AbSharedUtil.getInt(PublishFlagActivity.this, Constants.USER_ID)
-                        + "");
-
-        if (bingLi != null) {
-            params.addBodyParameter("oid",
-                    bingLi.getOid() + "");
-        }
-
-        params.addBodyParameter("detailInfo", et_content.getText().toString());
-        params.addBodyParameter("disease_type", diseaseType+"");
-        params.addBodyParameter("check_time", timeTv.getText().toString());
-        params.addBodyParameter("title", nameTv.getText().toString());
-        if (patientId != null) {
-            params.addBodyParameter("patientId", patientId);
-        }
-        for (int i = 0; i < selectedPhotos.size(); i++) {
-            if (!selectedPhotos.get(i).equals(String.valueOf(R.drawable.cam_photo))) {
-                try {
-                    params.addBodyParameter("fileUrl" + i,
-                            compressImage(selectedPhotos.get(i)));
-                } catch (Exception e) {
-
-                }
-            }
-            ;
-
-        }
-        http.send(HttpRequest.HttpMethod.POST, Urls.DISEASE_SAVE, params,
-                new RequestCallBack<String>() {
-                    @Override
-                    public void onStart() {
-                        SVProgressHUD.showWithStatus(PublishFlagActivity.this, getString(R.string.send_case_ing));
-                    }
-
-                    @Override
-                    public void onLoading(long total, long current,
-                                          boolean isUploading) {
-                        SVProgressHUD.getProgressBar(PublishFlagActivity.this).setProgress((int) (current * 100 / total));
-                        SVProgressHUD.getInstance(PublishFlagActivity.this).getmSharedView().setText(getString(R.string.shangchuan) + (current * 100 / total) + "%");
-                        //SVProgressHUD.showInfoWithStatus(PublishFlagActivity.this,);
-                    }
-
-                    @Override
-                    public void onSuccess(ResponseInfo<String> responseInfo) {
-                        try {
-                            JSONObject obj = new JSONObject(responseInfo.result);
-                            send_msg_btn.setEnabled(true);
-                            if (obj.has("success")) {
-                                if (obj.getBoolean("success")) {
-                                    SVProgressHUD.dismiss(PublishFlagActivity.this);
-                                    setResult(RESULT_OK);
-                                    finish();
-                                }
-                            }
-                            if (obj.has("content")) {
-
-                            }
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(HttpException error, String msg) {
-                        send_msg_btn.setEnabled(true);
-                        SVProgressHUD.dismiss(PublishFlagActivity.this);
-                        AbToastUtil.showToast(PublishFlagActivity.this, getString(R.string.wangluoyichang));
-                    }
-                });
-    }
-
-
-
-    public String getPath(Uri uri) {
-        if (AbStrUtil.isEmpty(uri.getAuthority())) {
             return null;
         }
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String path = cursor.getString(column_index);
-        return path;
+
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        UILApplication.remove(PublishFlagActivity.this);
-    }
 
-    @OnClick(R.id.time_layout)
-    public void onViewClicked() {
-        TimeSelector timeSelector = new TimeSelector(this, new TimeSelector.ResultHandler() {
-            @Override
-            public void handle(String time) {
-                timeTv.setText(time.replace(" 00:00",""));
-            }
-        }, "1900-01-01 00:00", "2025-12-31 00:00");
-        timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
-        timeSelector.show();
-    }
-    private TextWatcher watcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            countText.setText(s.length()+"/200");
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };*/
     private void initDatePicker() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         String now = sdf.format(new Date());
@@ -410,19 +198,32 @@ public class PublishFlagActivity extends AppCompatActivity {
         customDatePicker1 = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) { // 回调接口，获得选中的时间
-                currentDate.setText(time.split(" ")[0]);
+                 mDachengText.setText(time);
             }
         }, "2010-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
-        customDatePicker1.showSpecificTime(false); // 不显示时和分
-        customDatePicker1.setIsLoop(false); // 不允许循环滚动
+        customDatePicker1.showSpecificTime(true); // 显示时和分
+        customDatePicker1.setIsLoop(true); // 允许循环滚动
 
         customDatePicker2 = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) { // 回调接口，获得选中的时间
-
+                mAlertTimeTv.setText(time);
             }
         }, "2010-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
         customDatePicker2.showSpecificTime(true); // 显示时和分
         customDatePicker2.setIsLoop(true); // 允许循环滚动
+    }
+
+    @OnClick({R.id.dacheng_layout, R.id.tixing_layout})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.dacheng_layout:
+                customDatePicker1.show("2016-06-02");
+                break;
+            case R.id.tixing_layout:
+                customDatePicker2.show("2016-06-02");
+                break;
+        }
+
     }
 }

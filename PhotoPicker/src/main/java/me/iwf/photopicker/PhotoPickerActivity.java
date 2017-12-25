@@ -9,14 +9,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.flyco.systembar.SystemBarHelper;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import me.iwf.photopicker.entity.Photo;
 import me.iwf.photopicker.event.OnItemCheckListener;
 import me.iwf.photopicker.fragment.ImagePagerFragment;
 import me.iwf.photopicker.fragment.PhotoPickerFragment;
 
 import static android.widget.Toast.LENGTH_LONG;
+import static me.iwf.photopicker.R.id.toolbar;
 
 public class PhotoPickerActivity extends AppCompatActivity {
 
@@ -54,7 +59,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
     setContentView(R.layout.__picker_activity_photo_picker);
 
-    Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+    Toolbar mToolbar = (Toolbar) findViewById(toolbar);
     setSupportActionBar(mToolbar);
     setTitle(R.string.__picker_title);
 
@@ -62,6 +67,11 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
     assert actionBar != null;
     actionBar.setDisplayHomeAsUpEnabled(true);
+
+    SystemBarHelper.immersiveStatusBar(this, 0);
+    SystemBarHelper.setHeightAndPadding(this,mToolbar);
+   /* SystemBarHelper.setSt(this, 0);
+    SystemBarHelper.setHeightAndPadding(mAppCompatActivity,toolbar);*/
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       actionBar.setElevation(25);
     }

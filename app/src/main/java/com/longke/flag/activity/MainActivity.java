@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import com.longke.flag.R;
 import com.longke.flag.entity.Config;

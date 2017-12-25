@@ -7,7 +7,7 @@
     <!--android:fillViewport="true"-->
     <!--&gt;-->
 
-  <com.bm.library.PhotoView
+  <com.github.chrisbanes.photoview.PhotoView
       xmlns:android="http://schemas.android.com/apk/res/android"
       android:gravity="center"
     android:scaleType="fitXY"

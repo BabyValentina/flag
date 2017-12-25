@@ -1,6 +1,8 @@
 package com.longke.flag.fragment;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -32,6 +34,8 @@ public class FindFragment extends Fragment implements PullLoadMoreRecyclerView.P
     private int mCount = 1;
     private FollowAdapter mRecyclerViewAdapter;
     private RecyclerView mRecyclerView;
+    private View mDecorView;
+    private Activity mActivity;
 
     public FindFragment() {
         // Required empty public constructor
@@ -49,7 +53,27 @@ public class FindFragment extends Fragment implements PullLoadMoreRecyclerView.P
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_find, container, false);
         ButterKnife.inject(this, view);
+        mDecorView = mActivity.getWindow().getDecorView();
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity= (Activity) context;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showSystemUI();
+    }
+
+    private void showSystemUI() {
+        if(mDecorView==null)return;
+        mDecorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        );
     }
 
     @Override
