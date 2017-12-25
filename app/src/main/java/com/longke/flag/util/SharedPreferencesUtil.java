@@ -12,6 +12,8 @@ import java.util.Map;
  * Created by wenmingvs on 15/12/27.
  */
 public class SharedPreferencesUtil {
+    public static final String UserCode="UserCode" ;
+    public static final String UserSecret="UserSecret" ;
     /**
      * 保存在手机里面的文件名
      */
