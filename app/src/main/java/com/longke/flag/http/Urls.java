@@ -12,5 +12,6 @@ public class Urls {
     public static final String Login=BASE_URL+"/api/User/Login";
     public static final String Register=BASE_URL+"/api/User/Register";
     public static final String ForgetPwd=BASE_URL+"/api/User/ForgetPwd";
-    public static final String Base64Encode=BASE_URL+"/api/Common/Base64Encode";
+    public static final String GetSignData=BASE_URL+"/api/Common/GetSignData";
+    public static final String UserCenterIndex=BASE_URL+"/api/User/UserCenterIndex";
 }

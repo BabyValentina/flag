@@ -22,17 +22,38 @@ import android.widget.TextView;
 
 import com.flyco.systembar.SystemBarHelper;
 import com.longke.flag.R;
+import com.longke.flag.activity.LoginActivity;
+import com.longke.flag.activity.MainActivity;
 import com.longke.flag.activity.MyCollectionActivity;
 import com.longke.flag.activity.MyViewerActivity2;
 import com.longke.flag.activity.MyfansActivity;
 import com.longke.flag.activity.SettingActivity;
 import com.longke.flag.activity.UserDetailActivity;
 import com.longke.flag.adapter.InfoAdapter;
+import com.longke.flag.event.MessageEvent;
+import com.longke.flag.http.HttpUtil;
+import com.longke.flag.http.Urls;
+import com.longke.flag.util.SharedPreferencesUtil;
+import com.longke.flag.util.ToastUtil;
+import com.tsy.sdk.myokhttp.response.JsonResponseHandler;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.R.attr.data;
+import static com.longke.flag.R.style.dialog;
+import static com.longke.flag.http.Urls.UserCenterIndex;
+import static com.longke.flag.util.SharedPreferencesUtil.UserCode;
+import static com.longke.flag.util.SharedPreferencesUtil.get;
 
 
 /**
@@ -115,7 +136,102 @@ public class MeFragment extends Fragment implements OnClickListener {
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ea6a6a"));
         setOnclickListener();
         ButterKnife.inject(this, mView);
+        EventBus.getDefault().register(this);
+        HttpUtil.getInstance().GetTimestamp("UserCenterIndex");
         return mView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMoonEvent(MessageEvent messageEvent) {
+        if ("UserCenterIndex".equals(messageEvent.getTag())) {
+            GetSignData(messageEvent.getMessage());
+        }
+    }
+
+    /**
+     * {"FormateStr":"yyyy-MM-dd","ResultCode":200,"Success":true,"Message":"","Data":{"Id":5,"UserName":"18682017798","PhotoUrl":null,"Comments":null,"AttentionCount":0,"BeAttentionCount":0,"CollectCount":0,"FlagList":[],"CircleList":[]},"TotalCount":0,"ContentEncoding":null,"ContentType":null,"JsonRequestBehavior":0,"MaxJsonLength":null,"RecursionLimit":null}
+     * @param timestamp
+     */
+    public void GetSignData(final String timestamp){
+        final String UserCode= (String) SharedPreferencesUtil.get(mAppCompatActivity, SharedPreferencesUtil.UserCode,"");
+        String UserSecret= (String) SharedPreferencesUtil.get(mAppCompatActivity,SharedPreferencesUtil.UserSecret,"");
+        HttpUtil.getInstance().getOkHttp().get().addHeader("X_MACHINE_ID", "ED5E3E2585B2477ABCA664EAAF32DC2A").
+                addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(Urls.GetSignData)
+                .addParam("Timestamp", timestamp)
+                .addParam("appKey",UserCode)
+                .addParam("appSecret",UserSecret)
+                .tag(this)
+                .enqueue(new JsonResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        try {
+                            if(response.getBoolean("Success")){
+                               String Message=response.getString("Message");
+                                UserCenterIndex(UserCode,timestamp,Message);
+                            }else{
+                                ToastUtil.showShort(mAppCompatActivity,response.getString("Message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONArray response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+                });
+
+    }
+    public void UserCenterIndex(String appKey,String timestamp,String sign){
+        HttpUtil.getInstance().getOkHttp().get().addHeader("X_MACHINE_ID", "ED5E3E2585B2477ABCA664EAAF32DC2A").
+                addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(UserCenterIndex)
+                .addParam("timestamp", timestamp)
+                .addParam("appKey",appKey)
+                .addParam("sign",sign)
+                .addParam("isOwner",true+"")
+                .addParam("isUserData",true+"")
+                .addParam("isFlagData",true+"")
+                .addParam("isCircleData",true+"")
+                .addParam("currPage","1")
+                .addParam("pageSize","10")
+                .tag(this)
+                .enqueue(new JsonResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        try {
+                            if(response.getBoolean("Success")){
+                               String Message=response.getString("Message");
+                            }else{
+                                ToastUtil.showShort(mAppCompatActivity,response.getString("Message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONArray response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+                });
+
     }
 
     private void setOnclickListener() {

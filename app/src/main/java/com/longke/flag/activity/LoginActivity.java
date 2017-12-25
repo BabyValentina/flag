@@ -18,6 +18,7 @@ import com.longke.flag.R;
 import com.longke.flag.event.MessageEvent;
 import com.longke.flag.http.HttpUtil;
 import com.longke.flag.http.Urls;
+import com.longke.flag.util.SharedPreferencesUtil;
 import com.longke.flag.util.ToastUtil;
 import com.tsy.sdk.myokhttp.response.JsonResponseHandler;
 
@@ -129,6 +130,15 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(int statusCode, JSONObject response) {
                         try {
                             if(response.getBoolean("Success")){
+                                if(response.has("Data")) {
+                                    JSONObject data= response.getJSONObject("Data");
+                                    if(data.has("UserCode")){
+                                        SharedPreferencesUtil.put(LoginActivity.this,SharedPreferencesUtil.UserCode,data.getString("UserCode"));
+                                    }
+                                    if(data.has("UserSecret")){
+                                        SharedPreferencesUtil.put(LoginActivity.this,SharedPreferencesUtil.UserSecret,data.getString("UserSecret"));
+                                    }
+                                }
                                 startActivity(new Intent(LoginActivity.this,MainActivity.class));
                                 finish();
                             }else{
