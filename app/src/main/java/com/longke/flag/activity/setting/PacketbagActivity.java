@@ -30,7 +30,7 @@ public class PacketbagActivity extends FragmentActivity {
                 startActivity(new Intent(PacketbagActivity.this,WithdrawActivity.class));
                 break;
             case R.id.mybank_tv:
-                startActivity(new Intent(PacketbagActivity.this,BillActivity.class));
+                startActivity(new Intent(PacketbagActivity.this,MyBankActivity.class));
                 break;
         }
     }

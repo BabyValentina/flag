@@ -14,10 +14,10 @@
             android:id="@+id/back_iv"
             android:clickable="true"
             android:onClick="onClick"
-            android:layout_marginLeft="15dp"
+            android:padding="15dp"
             android:src="@drawable/fanhui"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"/>
         <TextView
             android:text="账单记录"

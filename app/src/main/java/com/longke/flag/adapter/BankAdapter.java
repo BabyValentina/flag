@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.longke.flag.R;
 
@@ -35,20 +36,23 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemView.setTag(position);
+        if(position==1){
+            holder.addTV.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 2;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        public TextView addTV;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this,itemView);
-
-
+            addTV= (TextView) itemView.findViewById(R.id.addbank_tv);
         }
     }
 

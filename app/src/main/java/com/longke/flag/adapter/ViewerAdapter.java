@@ -19,7 +19,7 @@ public class ViewerAdapter extends RecyclerView.Adapter<ViewerAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_viewer, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_viewed, parent, false);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

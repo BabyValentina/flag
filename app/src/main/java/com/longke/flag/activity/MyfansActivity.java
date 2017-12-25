@@ -15,13 +15,18 @@ import com.longke.flag.adapter.FollowAdapter;
 import com.longke.flag.util.DialogUtil;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.OnClick;
 
 public class MyfansActivity extends FragmentActivity implements PullLoadMoreRecyclerView.PullLoadMoreListener, FollowAdapter.OnItemClickListener {
 
     private Dialog fansDialog;
+    private int position=-1;
     private RecyclerView mRecyclerView;
     private FansAdapter mRecyclerViewAdapter;
+    private List<String> datas=new ArrayList<>();
     private PullLoadMoreRecyclerView mPullLoadMoreRecyclerView;
 
     @Override
@@ -53,7 +58,9 @@ public class MyfansActivity extends FragmentActivity implements PullLoadMoreRecy
         mPullLoadMoreRecyclerView.setLinearLayout();
 
         mPullLoadMoreRecyclerView.setOnPullLoadMoreListener(this);
-        mRecyclerViewAdapter = new FansAdapter();
+        datas.add("");
+        datas.add("");
+        mRecyclerViewAdapter = new FansAdapter(datas);
         mRecyclerViewAdapter.setOnItemClickListener(this);
         mPullLoadMoreRecyclerView.setAdapter(mRecyclerViewAdapter);
 
@@ -67,10 +74,16 @@ public class MyfansActivity extends FragmentActivity implements PullLoadMoreRecy
                 finish();
                 break;
             case R.id.cancel_tv:
+                position=-1;
                 fansDialog.dismiss();
                 break;
             case R.id.confirm_tv:
                 fansDialog.dismiss();
+                if(position!=-1){
+                    datas.remove(position);
+                    position=-1;
+                    mRecyclerViewAdapter.notifyDataSetChanged();
+                }
                 break;
         }
     }
@@ -88,5 +101,6 @@ public class MyfansActivity extends FragmentActivity implements PullLoadMoreRecy
     @Override
     public void onItemClick(View view, int position) {
         fansDialog.show();
+        this.position=position;
     }
 }

@@ -14,10 +14,10 @@
             android:id="@+id/back_iv"
             android:clickable="true"
             android:onClick="onClick"
-            android:layout_marginLeft="15dp"
+            android:padding="15dp"
             android:src="@drawable/fanhui"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"/>
         <TextView
             android:text="充值"
@@ -40,6 +40,10 @@
         android:textColor="#A6A6A6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E5E5E5"/>
     <LinearLayout
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -63,6 +67,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#E5E5E5"/>
     <TextView
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
@@ -89,7 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:src="@drawable/icon"
+            android:src="@drawable/yuezhifu"
             android:layout_width="30dp"
             android:layout_height="30dp" />
         <TextView
@@ -101,9 +109,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <ImageView
-            android:src="@drawable/common_icon_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:id="@+id/yue_iv"
+            android:src="@drawable/xuanzeanniou"
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -122,7 +131,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:src="@drawable/icon"
+            android:src="@drawable/weixingzhifu"
             android:layout_width="30dp"
             android:layout_height="30dp" />
         <TextView
@@ -134,9 +143,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <ImageView
-            android:src="@drawable/common_icon_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:id="@+id/wx_iv"
+            android:src="@drawable/yixuanze"
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -155,7 +165,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:src="@drawable/icon"
+            android:src="@drawable/zhifubaozhifu"
             android:layout_width="30dp"
             android:layout_height="30dp" />
         <TextView
@@ -167,25 +177,33 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <ImageView
-            android:src="@drawable/common_icon_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:id="@+id/alipay_iv"
+            android:src="@drawable/xuanzeanniou"
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/recharge_tv"
-        android:clickable="true"
-        android:onClick="onClick"
-        android:layout_marginTop="20dp"
-        android:text="支付"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:textColor="@android:color/white"
-        android:layout_gravity="center_horizontal"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/black"/>
+        android:layout_height="match_parent"
+        android:background="#F3F3F3">
+        <TextView
+            android:id="@+id/recharge_tv"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:layout_marginTop="40dp"
+            android:text="支付"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_black"/>
+    </LinearLayout>
+
 </LinearLayout>

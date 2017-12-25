@@ -18,11 +18,15 @@ import com.longke.flag.adapter.ViewerAdapter;
 import com.longke.flag.util.DialogUtil;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyViewerActivity2 extends FragmentActivity implements PullLoadMoreRecyclerView.PullLoadMoreListener, FollowAdapter.OnItemClickListener {
 
     private Dialog fansDialog;
+    private List<String> datas=new ArrayList<>();
     private RecyclerView mRecyclerView,mRecyclerView2;
-    private FansAdapter mRecyclerViewAdapter;
+    private ViewerAdapter mRecyclerViewAdapter;
     private FlagAdapter mRecyclerViewAdapter2;
     private PullLoadMoreRecyclerView mPullLoadMoreRecyclerView,mPullLoadMoreRecyclerView2;
     private TextView viewedTV,flagTV;
@@ -57,7 +61,7 @@ public class MyViewerActivity2 extends FragmentActivity implements PullLoadMoreR
         mPullLoadMoreRecyclerView.setLinearLayout();
 
         mPullLoadMoreRecyclerView.setOnPullLoadMoreListener(this);
-        mRecyclerViewAdapter = new FansAdapter();
+        mRecyclerViewAdapter = new ViewerAdapter();
         mRecyclerViewAdapter.setOnItemClickListener(this);
         mPullLoadMoreRecyclerView.setAdapter(mRecyclerViewAdapter);
 
@@ -134,6 +138,6 @@ public class MyViewerActivity2 extends FragmentActivity implements PullLoadMoreR
 
     @Override
     public void onItemClick(View view, int position) {
-        fansDialog.show();
+        //fansDialog.show();
     }
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="90dp">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:background="@android:color/white">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+
+            android:id="@+id/circleimageview_icon_head"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/icon"
+            android:layout_centerHorizontal="true"/>
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="丸子君君"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="时间是一切财富中最宝贵的财富"
+                android:textSize="13sp"
+                android:textColor="#959595"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/viewer_tv"
+            android:layout_marginRight="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:text="已关注"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/yiguanzhu"
+            android:textColor="#707070"
+            android:textSize="13sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/guanzhu_bg"/>
+    </LinearLayout>
+    <View
+        android:background="#EDEDED"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+</LinearLayout>

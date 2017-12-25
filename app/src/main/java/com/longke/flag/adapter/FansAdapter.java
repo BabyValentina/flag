@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.longke.flag.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -20,6 +23,12 @@ import butterknife.InjectView;
  */
 
 public class FansAdapter extends RecyclerView.Adapter<FansAdapter.ViewHolder> {
+
+    private List<String> datas=new ArrayList<>();
+
+    public FansAdapter(List<String> datas) {
+        this.datas = datas;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -43,7 +52,7 @@ public class FansAdapter extends RecyclerView.Adapter<FansAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return datas.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

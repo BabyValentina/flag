@@ -39,7 +39,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 15;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
