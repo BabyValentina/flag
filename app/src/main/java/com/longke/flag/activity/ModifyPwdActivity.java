@@ -2,6 +2,7 @@ package com.longke.flag.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.longke.flag.R;
+import com.longke.flag.event.MessageEvent;
+import com.longke.flag.http.HttpUtil;
+import com.longke.flag.http.Urls;
+import com.longke.flag.util.SharedPreferencesUtil;
+import com.longke.flag.util.ToastUtil;
+import com.tsy.sdk.myokhttp.response.JsonResponseHandler;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -40,8 +54,100 @@ public class ModifyPwdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_pwd);
         ButterKnife.inject(this);
+        EventBus.getDefault().register(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMoonEvent(MessageEvent messageEvent) {
+        if ("ModifyUser".equals(messageEvent.getTag())) {
+            GetSignData(messageEvent.getMessage());
+        }
+    }
+    /**
+     * {"FormateStr":"yyyy-MM-dd","ResultCode":200,"Success":true,"Message":"","Data":{"Id":5,"UserName":"18682017798","PhotoUrl":null,"Comments":null,"AttentionCount":0,"BeAttentionCount":0,"CollectCount":0,"FlagList":[],"CircleList":[]},"TotalCount":0,"ContentEncoding":null,"ContentType":null,"JsonRequestBehavior":0,"MaxJsonLength":null,"RecursionLimit":null}
+     *
+     * @param timestamp
+     */
+    public void GetSignData(final String timestamp) {
+        final String UserCode = (String) SharedPreferencesUtil.get(ModifyPwdActivity.this, SharedPreferencesUtil.UserCode, "");
+        String UserSecret = (String) SharedPreferencesUtil.get(ModifyPwdActivity.this, SharedPreferencesUtil.UserSecret, "");
+        HttpUtil.getInstance().getOkHttp().get().addHeader("X_MACHINE_ID", "ED5E3E2585B2477ABCA664EAAF32DC2A").
+                addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(Urls.GetSignData)
+                .addParam("Timestamp", timestamp)
+                .addParam("appKey", UserCode)
+                .addParam("appSecret", UserSecret)
+                .tag(this)
+                .enqueue(new JsonResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        try {
+                            if (response.getBoolean("Success")) {
+                                String Message = response.getString("Message");
+                                ModifyUser(UserCode, timestamp, Message);
+                            } else {
+                                ToastUtil.showShort(ModifyPwdActivity.this, response.getString("Message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONArray response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+                });
+
+    }
+
+    public void ModifyUser(String appKey, String timestamp, String sign) {
+        HttpUtil.getInstance().getOkHttp().post().addHeader("X_MACHINE_ID", "ED5E3E2585B2477ABCA664EAAF32DC2A").
+                addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(Urls.ModifyUser)
+                .addParam("timestamp", timestamp)
+                .addParam("appKey", appKey)
+                .addParam("sign", sign)
+                .addParam("mobile",  appKey)
+                .addParam("oldPwd", mEtPhone.getText().toString())
+                .addParam("pwd", mConfirmPwd.getText().toString())
+                .tag(this)
+                .enqueue(new JsonResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        try {
+                            if (response.getBoolean("Success")) {
+                                ToastUtil.showShort(ModifyPwdActivity.this, "修改密码成功");
+                                finish();
+                            } else {
+                                ToastUtil.showShort(ModifyPwdActivity.this, response.getString("Message"));
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONArray response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+                });
+
+    }
     @OnClick({R.id.iv_back, R.id.btn_confirm})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -49,7 +155,24 @@ public class ModifyPwdActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.btn_confirm:
-                finish();
+                if(TextUtils.isEmpty(mEtPhone.getText().toString())){
+                    ToastUtil.showShort(ModifyPwdActivity.this,"旧密码不能为空");
+                    return;
+                }
+                if(TextUtils.isEmpty(mNewPwd.getText())){
+                    ToastUtil.showShort(ModifyPwdActivity.this,"新密码不能为空");
+                    return;
+                }
+                if(TextUtils.isEmpty(mConfirmPwd.getText().toString())){
+                    ToastUtil.showShort(ModifyPwdActivity.this,"确认密码不能为空");
+                    return;
+                }
+                if(!mNewPwd.getText().toString().equals(mConfirmPwd.getText().toString())){
+                    ToastUtil.showShort(ModifyPwdActivity.this,"确认密码和新密码不一致");
+                    return;
+                }
+                HttpUtil.getInstance().GetTimestamp("ModifyPwd");
+
                 break;
         }
     }

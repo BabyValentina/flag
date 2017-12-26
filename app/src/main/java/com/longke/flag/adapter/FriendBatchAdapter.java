@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.longke.flag.R;
 
 import java.util.ArrayList;
@@ -13,24 +12,20 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 
-
 /**
- * Created by Jackie
- * on 2017/12/24
- * email jishengji@xianyulc.com
+ * Created by longke on 2017/12/27.
  */
 
-public class FansAdapter extends RecyclerView.Adapter<FansAdapter.ViewHolder> {
-
+public class FriendBatchAdapter extends RecyclerView.Adapter<FriendBatchAdapter.ViewHolder>{
     private List<String> datas=new ArrayList<>();
 
-    public FansAdapter(List<String> datas) {
+    public FriendBatchAdapter(List<String> datas) {
         this.datas = datas;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fans, parent, false);
+    public FriendBatchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_batch_item, parent, false);
         view.findViewById(R.id.viewer_tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,11 +35,11 @@ public class FansAdapter extends RecyclerView.Adapter<FansAdapter.ViewHolder> {
                 }
             }
         });
-        return new ViewHolder(view);
+        return new FriendBatchAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(FriendBatchAdapter.ViewHolder holder, int position) {
         holder.itemView.setTag(position);
     }
 

@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.flyco.systembar.SystemBarHelper;
 import com.longke.flag.R;
+import com.longke.flag.activity.PublishDynamicsActivity;
 import com.longke.flag.activity.PublishFlagActivity;
 import com.longke.flag.adapter.TabFragmentPagerAdapter;
 import com.longke.flag.util.ToastUtil;
@@ -156,7 +157,7 @@ public class HomeFragment extends Fragment {
                         if(position==0){
                             startActivity(new Intent(getActivity(),PublishFlagActivity.class));
                         }else{
-
+                            startActivity(new Intent(getActivity(),PublishDynamicsActivity.class));
                         }
                     }
                 }).show();
