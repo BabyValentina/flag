@@ -37,14 +37,16 @@ public class UserNameActivity extends AppCompatActivity {
     View view;
     @InjectView(R.id.et_sign)
     EditText etSign;
-
     private String sign;
+    private String userName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.username_main);
         ButterKnife.inject(this);
+        userName=getIntent().getStringExtra("userName");
+        etSign.setText(userName);
         initView();
     }
 

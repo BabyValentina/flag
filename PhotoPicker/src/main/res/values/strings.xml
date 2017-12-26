@@ -13,7 +13,7 @@
   <string name="__picker_all_image">All Images</string>
   <string name="__picker_over_max_count_tips">Up to %1$d photos can be selected</string>
   <string name="__picker_image_count">%1$d</string>
-  <string name="bin__picker_20">病例最多只能提交20张图片</string>
+  <string name="bin__picker_20">病例最多只能提交9张图片</string>
   <string name="bin__picker_5">最多只能提交5张图片</string>
 
 </resources>

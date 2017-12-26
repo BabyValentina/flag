@@ -148,4 +148,5 @@
     <color name="buttonWhileText">#ffffffff</color>
     <color name="common_action_bar_item">#ee4b54</color>
     <color name="common_action_bar">#d70c18</color>
+    <color name="common_divider_color_shallow">#EBEBEB</color>
 </resources>

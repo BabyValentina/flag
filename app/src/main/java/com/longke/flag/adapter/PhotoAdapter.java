@@ -56,7 +56,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
           @Override
           public void onClick(View v) {
             Intent intent = new Intent(mContext, PhotoPickerActivity.class);
-            PhotoPickerIntent.setPhotoCount(intent, 9-photoPaths.size());
+            PhotoPickerIntent.setPhotoCount(intent, 10-photoPaths.size());
             PhotoPickerIntent.setColumn(intent, 3);
            ((Activity)mContext).startActivityForResult(intent, PublishFlagActivity.REQUEST_ADD_CODE);
           }

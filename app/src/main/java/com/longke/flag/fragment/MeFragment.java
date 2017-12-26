@@ -21,20 +21,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flyco.systembar.SystemBarHelper;
+import com.google.gson.Gson;
 import com.longke.flag.R;
-import com.longke.flag.activity.LoginActivity;
-import com.longke.flag.activity.MainActivity;
 import com.longke.flag.activity.MyCollectionActivity;
 import com.longke.flag.activity.MyViewerActivity2;
 import com.longke.flag.activity.MyfansActivity;
 import com.longke.flag.activity.SettingActivity;
 import com.longke.flag.activity.UserDetailActivity;
 import com.longke.flag.adapter.InfoAdapter;
+import com.longke.flag.entity.User;
 import com.longke.flag.event.MessageEvent;
 import com.longke.flag.http.HttpUtil;
 import com.longke.flag.http.Urls;
 import com.longke.flag.util.SharedPreferencesUtil;
 import com.longke.flag.util.ToastUtil;
+import com.squareup.picasso.Picasso;
 import com.tsy.sdk.myokhttp.response.JsonResponseHandler;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,11 +50,6 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static android.R.attr.data;
-import static com.longke.flag.R.style.dialog;
-import static com.longke.flag.http.Urls.UserCenterIndex;
-import static com.longke.flag.util.SharedPreferencesUtil.UserCode;
-import static com.longke.flag.util.SharedPreferencesUtil.get;
 
 
 /**
@@ -89,9 +85,11 @@ public class MeFragment extends Fragment implements OnClickListener {
     ViewPager mViewpager;
     @InjectView(R.id.coordinatorlayout)
     CoordinatorLayout mCoordinatorlayout;
+
     private View mView;
     private AppCompatActivity mAppCompatActivity;
     private CircleImageView circleimageview_icon_head;
+    private  User user;
 
     public MeFragment() {
         // Required empty public constructor
@@ -107,48 +105,53 @@ public class MeFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_me2, container, false);
-        circleimageview_icon_head = (CircleImageView) mView.findViewById(R.id.circleimageview_icon_head);
-        circleimageview_icon_head.setOnClickListener(this);
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) mView.findViewById(R.id.collapsing_toolbar);
-        //设置CollapsingToolbarLayout的标题文字
-        collapsingToolbar.setTitle(" ");
-        Toolbar toolbar = (Toolbar) mView.findViewById(R.id.toolbar);
-        mAppCompatActivity.setSupportActionBar(toolbar);
-        mAppCompatActivity.getSupportActionBar().setTitle("");
-        toolbar.setNavigationOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // onBackPressed();
-            }
-        });
+        if(mView==null){
+            mView = inflater.inflate(R.layout.fragment_me2, container, false);
+            circleimageview_icon_head = (CircleImageView) mView.findViewById(R.id.circleimageview_icon_head);
+            circleimageview_icon_head.setOnClickListener(this);
+            CollapsingToolbarLayout collapsingToolbar =
+                    (CollapsingToolbarLayout) mView.findViewById(R.id.collapsing_toolbar);
+            //设置CollapsingToolbarLayout的标题文字
+            collapsingToolbar.setTitle(" ");
+            Toolbar toolbar = (Toolbar) mView.findViewById(R.id.toolbar);
+            mAppCompatActivity.setSupportActionBar(toolbar);
+            mAppCompatActivity.getSupportActionBar().setTitle("");
+            toolbar.setNavigationOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // onBackPressed();
+                }
+            });
 
-        SystemBarHelper.immersiveStatusBar(mAppCompatActivity, 0);
-        SystemBarHelper.setHeightAndPadding(mAppCompatActivity, toolbar);
-        //设置ViewPager
-        ViewPager viewPager = (ViewPager) mView.findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+            SystemBarHelper.immersiveStatusBar(mAppCompatActivity, 0);
+            SystemBarHelper.setHeightAndPadding(mAppCompatActivity, toolbar);
+            //设置ViewPager
+            ViewPager viewPager = (ViewPager) mView.findViewById(R.id.viewpager);
+            setupViewPager(viewPager);
 
-        //设置tablayout，viewpager上的标题
-        TabLayout tabLayout = (TabLayout) mView.findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ea6a6a"));
-        setOnclickListener();
-        ButterKnife.inject(this, mView);
-        EventBus.getDefault().register(this);
-        HttpUtil.getInstance().GetTimestamp("UserCenterIndex");
+            //设置tablayout，viewpager上的标题
+            TabLayout tabLayout = (TabLayout) mView.findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(viewPager);
+            tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ea6a6a"));
+            setOnclickListener();
+
+            ButterKnife.inject(this, mView);
+            EventBus.getDefault().register(this);
+            HttpUtil.getInstance().GetTimestamp("UserCenterIndex");
+        }
+
+
         return mView;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMoonEvent(MessageEvent messageEvent) {
+    public void onEvent(MessageEvent messageEvent) {
         if ("UserCenterIndex".equals(messageEvent.getTag())) {
             GetSignData(messageEvent.getMessage());
         }
@@ -196,7 +199,7 @@ public class MeFragment extends Fragment implements OnClickListener {
     }
     public void UserCenterIndex(String appKey,String timestamp,String sign){
         HttpUtil.getInstance().getOkHttp().get().addHeader("X_MACHINE_ID", "ED5E3E2585B2477ABCA664EAAF32DC2A").
-                addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(UserCenterIndex)
+                addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(Urls.UserCenterIndex)
                 .addParam("timestamp", timestamp)
                 .addParam("appKey",appKey)
                 .addParam("sign",sign)
@@ -212,7 +215,14 @@ public class MeFragment extends Fragment implements OnClickListener {
                     public void onSuccess(int statusCode, JSONObject response) {
                         try {
                             if(response.getBoolean("Success")){
-                               String Message=response.getString("Message");
+                                String data=response.getString("Data");
+                                user=new Gson().fromJson(data, User.class);
+                                mUserName.setText(user.getUserName());
+                                mMiaoshu.setText(user.getComments());
+                                mViewerTv.setText("关注  "+user.getAttentionCount());
+                                mFansTv.setText("|  粉丝  "+user.getBeAttentionCount());
+                                mColloctionTv.setText("|  收藏  "+user.getCollectCount());
+                                Picasso.with(mAppCompatActivity).load(Urls.BASE_URL+user.getPhotoUrl()).into(mCircleimageviewIconHead);
                             }else{
                                 ToastUtil.showShort(mAppCompatActivity,response.getString("Message"));
                             }
@@ -274,6 +284,7 @@ public class MeFragment extends Fragment implements OnClickListener {
                 //个人资料
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), UserDetailActivity.class);
+                intent.putExtra("user",user);
                 mAppCompatActivity.startActivity(intent);
                 break;
         }
@@ -283,6 +294,8 @@ public class MeFragment extends Fragment implements OnClickListener {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+        HttpUtil.getInstance().getOkHttp().cancel(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @OnClick(R.id.colloction_tv)

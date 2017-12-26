@@ -47,6 +47,8 @@ public class SignActivity extends AppCompatActivity {
         setContentView(R.layout.sgin_main);
         ButterKnife.inject(this);
         initView();
+        sign= (String) getIntent().getSerializableExtra("Sign");
+        etSign.setText(sign);
     }
 
     private void initView() {

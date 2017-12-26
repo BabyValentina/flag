@@ -50,6 +50,14 @@ public class SexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sex_main);
         ButterKnife.inject(this);
+        sex= getIntent().getStringExtra("sex")  ;
+        if (sex.equals("男")){
+            image1.setVisibility(View.VISIBLE);
+            image3.setVisibility(View.GONE);
+        }else{
+            image1.setVisibility(View.GONE);
+            image3.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnClick({R.id.iv_add, R.id.rel_man, R.id.rel_women})
