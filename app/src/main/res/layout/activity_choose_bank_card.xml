@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_choose_bank_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f3f3f3"
+    tools:context="com.longke.flag.activity.setting.ChooseBankCardActivity">
+    <RelativeLayout
+        android:id="@+id/cra_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+
+        android:layout_alignParentTop="true"
+        android:background="#ffffff"
+        >
+
+        <ImageView
+            android:id="@+id/back_img_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="20dp"
+            android:src="@drawable/fanhui"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            />
+
+        <TextView
+            android:id="@+id/current_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择银行卡类型"
+            android:layout_centerInParent="true"
+            android:textColor="#111111"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/finish_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="完成"
+            android:padding="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#111111"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/card_lv"
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+</LinearLayout>

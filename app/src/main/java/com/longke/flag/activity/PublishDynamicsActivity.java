@@ -48,7 +48,6 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import me.iwf.photopicker.PhotoPickerActivity;
 
-import static com.longke.flag.http.Urls.GetSignData;
 
 
 public class PublishDynamicsActivity extends AppCompatActivity {

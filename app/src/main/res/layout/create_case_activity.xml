@@ -130,6 +130,12 @@
                     android:layout_width="wrap_content"
                     android:layout_toRightOf="@+id/dacheng_title"
                     android:layout_height="wrap_content">
+                    <com.longke.flag.view.FlowTagLayout
+                        android:visibility="gone"
+                        android:id="@+id/hostory_tag_layout"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        style="@style/TagLayout" />
                     <TextView
                         android:id="@+id/dacheng_text"
                         android:layout_width="wrap_content"

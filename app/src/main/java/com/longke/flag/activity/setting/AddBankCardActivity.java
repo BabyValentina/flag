@@ -1,5 +1,6 @@
 package com.longke.flag.activity.setting;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -57,6 +58,7 @@ public class AddBankCardActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.type_layout:
+                startActivity(new Intent(AddBankCardActivity.this,ChooseBankCardActivity.class));
                 break;
         }
     }

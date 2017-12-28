@@ -29,6 +29,7 @@ import com.longke.flag.http.Urls;
 import com.longke.flag.util.SharedPreferencesUtil;
 import com.longke.flag.util.ToastUtil;
 import com.longke.flag.view.CustomDatePicker;
+import com.longke.flag.view.FlowTagLayout;
 import com.tsy.sdk.myokhttp.response.GsonResponseHandler;
 import com.tsy.sdk.myokhttp.response.JsonResponseHandler;
 
@@ -55,7 +56,6 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import me.iwf.photopicker.PhotoPickerActivity;
 
-import static com.longke.flag.R.style.dialog;
 import static com.longke.flag.http.Urls.GetSignData;
 
 
@@ -95,6 +95,8 @@ public class PublishFlagActivity extends AppCompatActivity {
     RelativeLayout dachengLayout;
     @InjectView(R.id.tixing_layout)
     RelativeLayout tixingLayout;
+    @InjectView(R.id.hostory_tag_layout)
+    FlowTagLayout mHostoryTagLayout;
     private ArrayList<String> mPhotoList;
     private ArrayList<String> selectPhotoList;
     private LayoutInflater mInflater;
@@ -121,6 +123,8 @@ public class PublishFlagActivity extends AppCompatActivity {
         initData();
         initView();
         EventBus.getDefault().register(this);
+        mHostoryTagLayout.setTags(new String[]{"三天", "一个月"});
+        //mHostoryTagLayout.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_SINGLE);
 
 
     }
@@ -264,17 +268,18 @@ public class PublishFlagActivity extends AppCompatActivity {
 
     @OnClick(R.id.send_msg_btn)
     public void onViewClicked() {
-        if(TextUtils.isEmpty(mFlagTitle.getText().toString())){
-             ToastUtil.showShort(PublishFlagActivity.this,"请输入标题");
-             return;
+        if (TextUtils.isEmpty(mFlagTitle.getText().toString())) {
+            ToastUtil.showShort(PublishFlagActivity.this, "请输入标题");
+            return;
         }
-        if(TextUtils.isEmpty(mFlagContent.getText().toString())){
-            ToastUtil.showShort(PublishFlagActivity.this,"请输入Flag内容");
+        if (TextUtils.isEmpty(mFlagContent.getText().toString())) {
+            ToastUtil.showShort(PublishFlagActivity.this, "请输入Flag内容");
             return;
         }
 
         HttpUtil.getInstance().GetTimestamp("SubmitPublishFlagCircle");
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMoonEvent(MessageEvent messageEvent) {
         if ("SubmitPublishFlagCircle".equals(messageEvent.getTag())) {
@@ -282,20 +287,21 @@ public class PublishFlagActivity extends AppCompatActivity {
             dialog.setMessage("登陆中,请稍候...");
 
             dialog.show();
-            GetSignData(messageEvent.getMessage())  ;
+            GetSignData(messageEvent.getMessage());
         }
 
     }
+
     /**
      * {"FormateStr":"yyyy-MM-dd","ResultCode":200,"Success":true,"Message":"","Data":{"Id":5,"UserName":"18682017798","PhotoUrl":null,"Comments":null,"AttentionCount":0,"BeAttentionCount":0,"CollectCount":0,"FlagList":[],"CircleList":[]},"TotalCount":0,"ContentEncoding":null,"ContentType":null,"JsonRequestBehavior":0,"MaxJsonLength":null,"RecursionLimit":null}
      *
      * @param timestamp
      */
     public void GetSignData(final String timestamp) {
-        final String UserCode = (String) SharedPreferencesUtil.get(PublishFlagActivity.this,SharedPreferencesUtil.UserCode, "");
+        final String UserCode = (String) SharedPreferencesUtil.get(PublishFlagActivity.this, SharedPreferencesUtil.UserCode, "");
         String UserSecret = (String) SharedPreferencesUtil.get(PublishFlagActivity.this, SharedPreferencesUtil.UserSecret, "");
         HttpUtil.getInstance().getOkHttp().get().addHeader("X_MACHINE_ID", "ED5E3E2585B2477ABCA664EAAF32DC2A").
-                 addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(GetSignData)
+                addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(GetSignData)
                 .addParam("Timestamp", timestamp)
                 .addParam("appKey", UserCode)
                 .addParam("appSecret", UserSecret)
@@ -306,10 +312,10 @@ public class PublishFlagActivity extends AppCompatActivity {
                         try {
                             if (response.getBoolean("Success")) {
                                 String Message = response.getString("Message");
-                                if(selectedPhotos.size()>1){
-                                    upLoadFile(UserCode, timestamp, Message)  ;
-                                }else{
-                                    SubmitPublishFlagCircle(UserCode, timestamp, Message,"");
+                                if (selectedPhotos.size() > 1) {
+                                    upLoadFile(UserCode, timestamp, Message);
+                                } else {
+                                    SubmitPublishFlagCircle(UserCode, timestamp, Message, "");
                                 }
 
                             } else {
@@ -333,7 +339,7 @@ public class PublishFlagActivity extends AppCompatActivity {
 
     }
 
-    public void SubmitPublishFlagCircle(String appKey, String timestamp, String sign,String path) {
+    public void SubmitPublishFlagCircle(String appKey, String timestamp, String sign, String path) {
 
         HttpUtil.getInstance().getOkHttp().post().addHeader("X_MACHINE_ID", "ED5E3E2585B2477ABCA664EAAF32DC2A").
                 addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(Urls.SubmitPublishFlagCircle)
@@ -343,14 +349,14 @@ public class PublishFlagActivity extends AppCompatActivity {
                 .addParam("Title", mFlagTitle.getText().toString())
                 .addParam("Content", mFlagContent.getText().toString())
                 .addParam("FlagType", "1")
-                .addParam("FinishedTagType","1")
-                .addParam("FinishedTagName","3天")
-                .addParam("PunishType","1") //红包
-                .addParam("Money","10")    //惩罚红包金额
-                .addParam("IsNotice","true")   //是否提醒
-                .addParam("NoticeTime",mAlertTimeTv.getText().toString())   //提醒时间
-                .addParam("AttentionType","1")   //关注类型，1-公开；2-仅好友；3-仅自己
-                .addParam("ImgPaths",path)   //图片路径，多张图片;隔开
+                .addParam("FinishedTagType", "1")
+                .addParam("FinishedTagName", "3天")
+                .addParam("PunishType", "1") //红包
+                .addParam("Money", "10")    //惩罚红包金额
+                .addParam("IsNotice", "true")   //是否提醒
+                .addParam("NoticeTime", mAlertTimeTv.getText().toString())   //提醒时间
+                .addParam("AttentionType", "1")   //关注类型，1-公开；2-仅好友；3-仅自己
+                .addParam("ImgPaths", path)   //图片路径，多张图片;隔开
                 .tag(this)
                 .enqueue(new JsonResponseHandler() {
                     @Override
@@ -358,7 +364,7 @@ public class PublishFlagActivity extends AppCompatActivity {
                         dialog.dismiss();
                         try {
                             if (response.getBoolean("Success")) {
-                                ToastUtil.showShort(PublishFlagActivity.this,"发布成功");
+                                ToastUtil.showShort(PublishFlagActivity.this, "发布成功");
                                 finish();
                             } else {
                                 ToastUtil.showShort(PublishFlagActivity.this, response.getString("Message"));
@@ -381,11 +387,12 @@ public class PublishFlagActivity extends AppCompatActivity {
                 });
 
     }
+
     public void upLoadFile(final String appKey, final String timestamp, final String sign) {
-        Map<String, File> files=new HashMap<>();
-        for(int i=0;i<selectedPhotos.size()-1;i++){
+        Map<String, File> files = new HashMap<>();
+        for (int i = 0; i < selectedPhotos.size() - 1; i++) {
             if (!selectedPhotos.get(i).equals(String.valueOf(R.drawable.cam_photo))) {
-                files.put("avatar"+i,compressImage(selectedPhotos.get(i)));
+                files.put("avatar" + i, compressImage(selectedPhotos.get(i)));
             }
         }
         HttpUtil.getInstance().getOkHttp().upload()
@@ -397,7 +404,7 @@ public class PublishFlagActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         // Log.d(TAG, "doUpload onFailure:" + error_msg);
-                        ToastUtil.showShort(PublishFlagActivity.this,"上传文件失败，请重试！");
+                        ToastUtil.showShort(PublishFlagActivity.this, "上传文件失败，请重试！");
                     }
 
                     @Override
@@ -407,12 +414,16 @@ public class PublishFlagActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(int statusCode, UploadModel response) {
-                        SubmitPublishFlagCircle(appKey, timestamp, sign,response.getMessage());
-                        Log.d("longke", "doUpload onSuccess:" +response.getMessage());
+                        SubmitPublishFlagCircle(appKey, timestamp, sign, response.getMessage());
+                        Log.d("longke", "doUpload onSuccess:" + response.getMessage());
                     }
                 });
 
 
     }
 
+    @OnClick(R.id.back_img_btn)
+    public void onClick() {
+        finish();
+    }
 }
