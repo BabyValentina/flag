@@ -272,7 +272,7 @@ public class MeFragment extends Fragment implements OnClickListener {
      */
     private void setupViewPager(ViewPager viewPager) {
         InfoAdapter adapter = new InfoAdapter(getChildFragmentManager());
-        adapter.addFragment(new MessageFragment(), "我的动态");
+        adapter.addFragment(new MyDynamicsFragment(), "我的动态");
         adapter.addFragment(new FlagFragment(), "我的flag");
         viewPager.setAdapter(adapter);
     }

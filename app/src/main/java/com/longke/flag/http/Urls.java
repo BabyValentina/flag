@@ -17,4 +17,5 @@ public class Urls {
     public static final String UploadFile=BASE_URL+"/api/Upload/UploadFile";
     public static final String ModifyUser=BASE_URL+"/api/User/ModifyUser";
     public static final String ModifyPwd=BASE_URL+"/api/User/ModifyPwd";
+    public static final String SubmitPublishFlagCircle=BASE_URL+"/api/FlagCircle/SubmitPublishFlagCircle";
 }
