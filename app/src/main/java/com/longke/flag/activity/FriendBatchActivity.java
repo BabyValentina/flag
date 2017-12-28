@@ -3,33 +3,36 @@ package com.longke.flag.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.longke.flag.R;
-import com.longke.flag.adapter.FansAdapter;
-import com.longke.flag.adapter.FollowAdapter;
-import com.longke.flag.util.DialogUtil;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendBatchActivity extends AppCompatActivity implements PullLoadMoreRecyclerView.PullLoadMoreListener{
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+public class FriendBatchActivity extends AppCompatActivity implements PullLoadMoreRecyclerView.PullLoadMoreListener {
+    @InjectView(R.id.back_img_btn)
+    ImageView backImgBtn;
     private RecyclerView mRecyclerView;
-    private FansAdapter mRecyclerViewAdapter;
-    private List<String> datas=new ArrayList<>();
+    private FriendBatchAdapter mRecyclerViewAdapter;
+    private List<String> datas = new ArrayList<>();
     private PullLoadMoreRecyclerView mPullLoadMoreRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_batch);
+        ButterKnife.inject(this);
         initView();
     }
 
-    private void initView(){
-        mPullLoadMoreRecyclerView= (PullLoadMoreRecyclerView) findViewById(R.id.pullLoadMoreRecyclerView);
+    private void initView() {
+        mPullLoadMoreRecyclerView = (PullLoadMoreRecyclerView) findViewById(R.id.pullLoadMoreRecyclerView);
         mRecyclerView = mPullLoadMoreRecyclerView.getRecyclerView();
         //代码设置scrollbar无效？未解决！
         mRecyclerView.setVerticalScrollBarEnabled(true);
@@ -52,14 +55,14 @@ public class FriendBatchActivity extends AppCompatActivity implements PullLoadMo
         mPullLoadMoreRecyclerView.setOnPullLoadMoreListener(this);
         datas.add("");
         datas.add("");
-        mRecyclerViewAdapter = new FansAdapter(datas);
+        mRecyclerViewAdapter = new FriendBatchAdapter(datas);
         mPullLoadMoreRecyclerView.setAdapter(mRecyclerViewAdapter);
 
 
     }
 
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.back_iv:
                 finish();
                 break;

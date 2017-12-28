@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginRight="5.0dip"
-                    android:layout_toLeftOf="@+id/et_check_code"
+                    android:layout_toLeftOf="@+id/et_phone_no"
                     android:background="@null"
                     android:hint="手机号"
                     android:inputType="phone"
@@ -118,7 +118,7 @@
                     android:background="@color/white">
 
                     <EditText
-                        android:id="@+id/et_check_code"
+                        android:id="@+id/et_phone_no"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"

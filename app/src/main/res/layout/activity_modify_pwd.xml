@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginRight="5.0dip"
-                    android:layout_toLeftOf="@+id/et_check_code"
+                    android:layout_toLeftOf="@+id/et_phone_no"
                     android:background="@null"
                     android:hint="原密码"
                     android:inputType="phone"

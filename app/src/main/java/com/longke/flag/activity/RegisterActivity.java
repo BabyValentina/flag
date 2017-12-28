@@ -54,7 +54,7 @@ public class RegisterActivity extends BaseActivity {
     EditText mEtPhone;
     @InjectView(R.id.tu_code)
     EditText mTuCode;
-    @InjectView(R.id.et_check_code)
+    @InjectView(R.id.et_phone_no)
     EditText mEtCheckCode;
     @InjectView(R.id.bt_get_sms_code)
     Button mBtGetSmsCode;

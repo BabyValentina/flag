@@ -15,6 +15,7 @@ import com.longke.flag.R;
 import com.longke.flag.event.MessageEvent;
 import com.longke.flag.http.HttpUtil;
 import com.longke.flag.http.Urls;
+import com.longke.flag.util.Md5Utils;
 import com.longke.flag.util.SharedPreferencesUtil;
 import com.longke.flag.util.ToastUtil;
 import com.tsy.sdk.myokhttp.response.JsonResponseHandler;
@@ -64,7 +65,7 @@ public class ModifyPwdActivity extends AppCompatActivity {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMoonEvent(MessageEvent messageEvent) {
-        if ("ModifyUser".equals(messageEvent.getTag())) {
+        if ("ModifyPwd".equals(messageEvent.getTag())) {
             GetSignData(messageEvent.getMessage());
         }
     }
@@ -111,14 +112,14 @@ public class ModifyPwdActivity extends AppCompatActivity {
     }
 
     public void ModifyUser(String appKey, String timestamp, String sign) {
-        HttpUtil.getInstance().getOkHttp().post().addHeader("X_MACHINE_ID", "ED5E3E2585B2477ABCA664EAAF32DC2A").
-                addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(Urls.ModifyUser)
+        HttpUtil.getInstance().getOkHttp().get().addHeader("X_MACHINE_ID", "ED5E3E2585B2477ABCA664EAAF32DC2A").
+                addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(Urls.ModifyPwd)
                 .addParam("timestamp", timestamp)
                 .addParam("appKey", appKey)
                 .addParam("sign", sign)
                 .addParam("mobile",  appKey)
-                .addParam("oldPwd", mEtPhone.getText().toString())
-                .addParam("pwd", mConfirmPwd.getText().toString())
+                .addParam("oldPwd", Md5Utils.md5Password(mEtPhone.getText().toString()))
+                .addParam("pwd", Md5Utils.md5Password(mConfirmPwd.getText().toString()))
                 .tag(this)
                 .enqueue(new JsonResponseHandler() {
                     @Override

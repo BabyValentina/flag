@@ -13,6 +13,14 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:background="@android:color/white">
+        <CheckBox
+            android:id="@+id/btnIsChoosed"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/radio"
+            android:button="@null"
+            />
 
         <de.hdodenhof.circleimageview.CircleImageView
 
@@ -41,19 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-        <TextView
-            android:id="@+id/viewer_tv"
-            android:layout_marginRight="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
-            android:text="关注"
-            android:textColor="#707070"
-            android:textSize="13sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/guanzhu_bg"/>
+
     </LinearLayout>
     <View
         android:background="#EDEDED"

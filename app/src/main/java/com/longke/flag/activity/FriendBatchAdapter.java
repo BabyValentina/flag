@@ -1,4 +1,4 @@
-package com.longke.flag.adapter;
+package com.longke.flag.activity;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,21 +6,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.longke.flag.R;
+import com.longke.flag.adapter.FollowAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 
 /**
- * Created by Jackie
- * on 2017/12/24
- * email jishengji@xianyulc.com
+ * 作者：$ longke on 2017/12/28 10:07
+ * 邮箱：373497847@qq.com
  */
 
-public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
+public class FriendBatchAdapter extends RecyclerView.Adapter<FriendBatchAdapter.ViewHolder>{
+    private List<String> datas=new ArrayList<>();
+
+    public FriendBatchAdapter(List<String> datas) {
+        this.datas = datas;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bank, parent, false);
-        /*view.findViewById(R.id.viewer_tv).setOnClickListener(new View.OnClickListener() {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_batch_item, parent, false);
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mOnItemClickListener != null) {
@@ -28,18 +36,18 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
                     mOnItemClickListener.onItemClick(v, 0);
                 }
             }
-        });*/
+        });
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return datas.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,6 +55,8 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this,itemView);
+
+
         }
     }
 

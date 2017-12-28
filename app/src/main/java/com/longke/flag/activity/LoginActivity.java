@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -18,6 +17,7 @@ import com.longke.flag.R;
 import com.longke.flag.event.MessageEvent;
 import com.longke.flag.http.HttpUtil;
 import com.longke.flag.http.Urls;
+import com.longke.flag.util.Md5Utils;
 import com.longke.flag.util.SharedPreferencesUtil;
 import com.longke.flag.util.ToastUtil;
 import com.tsy.sdk.myokhttp.response.JsonResponseHandler;
@@ -119,11 +119,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     public void Login(String timestamp){
-
         HttpUtil.getInstance().getOkHttp().get().addHeader("X_MACHINE_ID", "ED5E3E2585B2477ABCA664EAAF32DC2A").addHeader("X_REG_SECRET", "er308343cf381bd4a37a185654035475d4c67842").url(Urls.Login)
                 .addParam("Timestamp", timestamp)
                 .addParam("userCode", mEtQuickPhone.getText().toString())
-                .addParam("pwd", mEtPwd.getText().toString())
+                .addParam("pwd", Md5Utils.md5Password(mEtPwd.getText().toString()))
                 .tag(this)
                 .enqueue(new JsonResponseHandler() {
                     @Override
